@@ -2,6 +2,8 @@ package game;
 
 import javax.swing.JPanel;
 
+import image.AGLImage;
+
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,15 +20,16 @@ public class AGLGamePanel extends JPanel implements Runnable {
     public Color colour;
     public AGLMethodRunner updateMethods;
     public AGLMethodRunner drawMethods;
+    private AGLWindow window;
 
-    public AGLGamePanel(int width, int height, int FPS, AGLMethodRunner updateMethods, AGLMethodRunner drawMethods, Color colour) {
+    public AGLGamePanel(int width, int height, int FPS, AGLMethodRunner updateMethods, Color colour, AGLWindow window) {
 
         this.width = width;
         this.height = height;
         this.FPS = FPS;
         this.updateMethods = updateMethods;
-        this.drawMethods = drawMethods;
         this.colour = colour;
+        this.window = window;
 
         this.setPreferredSize(new Dimension(this.width, this.height));
         this.setBackground(this.colour);
@@ -89,7 +92,11 @@ public class AGLGamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
 
-        this.drawMethods.runMethods();
+        for (AGLImage image : this.window.drawImageOrder) {
+
+            g2.drawImage(image.getBufferedImage(), 0, 0, 10, 10, null);
+
+        }
 
 
         g2.dispose();

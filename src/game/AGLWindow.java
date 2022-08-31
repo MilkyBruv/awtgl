@@ -2,7 +2,11 @@ package game;
 
 import javax.swing.JFrame;
 
+import image.AGLImage;
+
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import methodRunner.AGLMethodRunner;
 
@@ -18,8 +22,9 @@ public class AGLWindow {
     public Color colour;
     public AGLMethodRunner updateMethods;
     public AGLMethodRunner drawMethods;
+    public List<AGLImage> drawImageOrder;
 
-    public AGLWindow(String title, boolean resizable, int width, int height, int FPS, AGLMethodRunner updateMethods, AGLMethodRunner drawMethods, Color colour) {
+    public AGLWindow(String title, boolean resizable, int width, int height, int FPS, AGLMethodRunner updateMethods, Color colour) {
 
         this.title = title;
         this.resizable = resizable;
@@ -28,15 +33,15 @@ public class AGLWindow {
         this.height = height;
         this.FPS = FPS;
         this.updateMethods = updateMethods;
-        this.drawMethods = drawMethods;
         this.colour = colour;
+        this.drawImageOrder = new ArrayList<AGLImage>();
     
         this.frame = new JFrame();
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.frame.setResizable(this.resizable);
         this.frame.setTitle(this.title);
 
-        this.gp = new AGLGamePanel(this.width, this.height, this.FPS, this.drawMethods, this.drawMethods, this.colour);
+        this.gp = new AGLGamePanel(this.width, this.height, this.FPS, this.updateMethods, this.colour, this);
 
         this.frame.add(this.gp);
 
@@ -46,6 +51,14 @@ public class AGLWindow {
         this.frame.setVisible(true);
 
         this.gp.startGameThread();
+
+    }
+
+
+
+    public void drawImage(AGLImage image) {
+
+        this.drawImageOrder.add(image);
 
     }
 
