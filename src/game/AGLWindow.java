@@ -23,6 +23,7 @@ public class AGLWindow {
     public AGLMethodRunner updateMethods;
     public AGLMethodRunner drawMethods;
     public List<AGLImage> drawImageOrder;
+    public List<int[]> drawImagePos;
 
     public AGLWindow(String title, boolean resizable, int width, int height, int FPS, AGLMethodRunner updateMethods, Color colour) {
 
@@ -34,7 +35,8 @@ public class AGLWindow {
         this.FPS = FPS;
         this.updateMethods = updateMethods;
         this.colour = colour;
-        this.drawImageOrder = new ArrayList<AGLImage>();
+        this.drawImageOrder = new ArrayList<>();
+        this.drawImagePos = new ArrayList<>();
     
         this.frame = new JFrame();
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,9 +58,10 @@ public class AGLWindow {
 
 
 
-    public void drawImage(AGLImage image) {
+    public void drawImage(AGLImage image, int x, int y, int width, int height) {
 
         this.drawImageOrder.add(image);
+        this.drawImagePos.add(new int[] {x, y, width, height});
 
     }
 

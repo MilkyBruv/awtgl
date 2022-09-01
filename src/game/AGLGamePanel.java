@@ -94,7 +94,9 @@ public class AGLGamePanel extends JPanel implements Runnable {
 
         for (AGLImage image : this.window.drawImageOrder) {
 
-            g2.drawImage(image.getBufferedImage(), 0, 0, 10, 10, null);
+            int[] data = this.window.drawImagePos.get(this.window.drawImageOrder.indexOf(image));
+
+            g2.drawImage(image.getBufferedImage(), data[0], data[1], data[2], data[3], null);
 
         }
 

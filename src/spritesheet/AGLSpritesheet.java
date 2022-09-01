@@ -1,6 +1,7 @@
 package spritesheet;
 
 import java.awt.image.BufferedImage;
+import java.awt.Graphics;
 
 import image.AGLImage;
 
@@ -19,21 +20,28 @@ public class AGLSpritesheet {
 
     }
 
-    public BufferedImage getBImage() {
 
-        return this.bImage;
 
-    }
+    public AGLSpritesheet(AGLImage image) {
 
-    public AGLImage getAGLImage() {
-
-        return this.aglImage;
+        this.aglImage = image;
+        this.bImage = image.getBufferedImage();
 
     }
 
-    public String getDir() {
+    
 
-        return this.dir;
+    public AGLImage getSubImage(int x, int y, int width, int height) {
+
+        BufferedImage preSubImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+        Graphics g = preSubImage.getGraphics();
+
+        g.drawImage(this.bImage, x, y, width, height, null);
+
+        AGLImage subImage = new AGLImage(preSubImage);
+
+        return subImage;
 
     }
 

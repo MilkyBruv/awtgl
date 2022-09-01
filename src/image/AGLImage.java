@@ -26,11 +26,31 @@ public class AGLImage {
 
     }
 
+
+
+    public AGLImage(int width, int height) {
+
+        this.bImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+    }
+
+    
+
+    public AGLImage(BufferedImage image) {
+
+        this.bImage = image;
+
+    }
+
+
+
     public BufferedImage getBufferedImage() {
 
         return this.bImage;
 
     }
+
+
 
     public String getDir() {
 
