@@ -1,0 +1,19 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "libs/lwjgl/AppleJavaExtensions.jar",
+        "libs/lwjgl/asm-debug-all.jar",
+        "libs/lwjgl/jinput.jar",
+        "libs/lwjgl/laf-plugin-7.2.1.jar",
+        "libs/lwjgl/laf-widget-7.2.1.jar",
+        "libs/lwjgl/log4j-api-2.0-beta9.jar",
+        "libs/lwjgl/lwjgl.jar",
+        "libs/lwjgl/lwjgl_test.jar",
+        "libs/lwjgl/lwjgl_util.jar",
+        "libs/lwjgl/lwjgl_util_applet.jar",
+        "libs/lwjgl/lwjgl-debug.jar",
+        "libs/lwjgl/lzma.jar",
+        "libs/lwjgl/substance-7.2.1.jar",
+        "libs/lwjgl/trident-7.2.1.jar"
+    ]
+}
