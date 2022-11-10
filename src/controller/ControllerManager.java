@@ -1,11 +1,15 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Controller;
 import org.lwjgl.input.Controllers;
 
-public class Controller {
+public class ControllerManager {
 
-    public Controller() {
+    public static Controller[] getControllers() {
 
         try {
 
@@ -17,17 +21,21 @@ public class Controller {
 
         }
 
+        List<Controller> controllers = new ArrayList<Controller>() {};
+
         Controllers.poll();
 
         for (int i = 0; i < Controllers.getControllerCount(); i++) {
 
             if (Controllers.getController(i).getName().equals("Wireless Controller")) {
 
-                System.out.println(Controllers.getController(i).getName());
+                controllers.add(Controllers.getController(i));
 
             }
 
         }
+
+        return (Controller[]) controllers.toArray();
 
     }
 

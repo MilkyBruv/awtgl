@@ -10,7 +10,6 @@ public class Window extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
         this.setVisible(true);
-
         this.setSize(width, height);
         this.setTitle(title);
         this.setResizable(resizeable);

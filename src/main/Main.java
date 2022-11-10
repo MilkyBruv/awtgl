@@ -1,6 +1,6 @@
 package main;
 
-import controller.Controller;
+import controller.ControllerManager;
 import window.GamePanel;
 import window.Window;
 
@@ -8,7 +8,7 @@ public class Main {
     
     public static void main(String[] args) {
 
-        Controller cont = new Controller();
+        new ControllerManager();
 
         Window window = new Window(800, 800, "amongus", true);
         Updater mainUpdater = new Updater();
