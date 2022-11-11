@@ -8,19 +8,21 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
 
-    Thread gameThread;
+    private Thread gameThread;
 
     private int width;
     private int height;
     private int fps;
     private GameUpdater gameUpdater;
+    private Renderer renderer;
 
-    public GamePanel(int width, int height, int fps, GameUpdater gameUpdater) {
+    public GamePanel(int width, int height, int fps, GameUpdater gameUpdater, Renderer renderer) {
 
         this.width = width;
         this.height = height;
         this.fps = fps;
         this.gameUpdater = gameUpdater;
+        this.renderer = renderer;
 
         this.setPreferredSize(new Dimension(this.width, this.height));
         this.setBackground(Color.black);
@@ -33,8 +35,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void startgameThread() {
 
-        gameThread = new Thread(this);
-        gameThread.start();
+        this.gameThread = new Thread(this);
+        this.gameThread.start();
 
     }
 
@@ -50,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
         long lastTime = System.nanoTime();
         long currentTime;
 
-        while (gameThread != null && this.gameUpdater != null) {
+        while (this.gameThread != null && this.gameUpdater != null) {
 
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
@@ -63,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable {
 
                 // DRAW
                 //? Uses built-in method to call the other overridden methods
-                repaint();
+                this.repaint();
 
                 delta--;
 
@@ -80,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         super.paintComponent(g);
 
-        //
+        this.renderer.supplyGraphics(g);
 
     }
 
