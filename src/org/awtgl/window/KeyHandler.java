@@ -1,4 +1,4 @@
-package window;
+package org.awtgl.window;
 
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;

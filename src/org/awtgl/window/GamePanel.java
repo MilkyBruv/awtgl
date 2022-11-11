@@ -1,4 +1,4 @@
-package window;
+package org.awtgl.window;
 
 import java.awt.Color;
 import java.awt.Dimension;

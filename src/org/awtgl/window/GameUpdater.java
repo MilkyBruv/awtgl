@@ -1,4 +1,4 @@
-package window;
+package org.awtgl.window;
 
 public interface GameUpdater {
     

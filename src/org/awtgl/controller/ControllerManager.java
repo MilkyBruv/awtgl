@@ -1,4 +1,4 @@
-package controller;
+package org.awtgl.controller;
 
 import java.util.ArrayList;
 import java.util.List;
