@@ -13,19 +13,17 @@ public class GamePanel extends JPanel implements Runnable {
     private int width;
     private int height;
     private int fps;
-    private GameUpdater gameUpdater;
-    private Renderer renderer;
+    private Window mainWindow;
 
-    public GamePanel(int width, int height, int fps, GameUpdater gameUpdater, Renderer renderer) {
+    public GamePanel(int width, int height, int fps, Window mainWindow) {
 
         this.width = width;
         this.height = height;
         this.fps = fps;
-        this.gameUpdater = gameUpdater;
-        this.renderer = renderer;
+        this.mainWindow = mainWindow;
 
         this.setPreferredSize(new Dimension(this.width, this.height));
-        this.setBackground(Color.black);
+        this.setBackground(new Color(255, 0, 0));
         this.setDoubleBuffered(true);
         this.setFocusable(true);
 
@@ -52,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
         long lastTime = System.nanoTime();
         long currentTime;
 
-        while (this.gameThread != null && this.gameUpdater != null) {
+        while (this.gameThread != null) {
 
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
@@ -61,7 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
             if (delta >= 1) {
 
                 // UPDATE
-                this.gameUpdater.update();
+                update();
 
                 // DRAW
                 //? Uses built-in method to call the other overridden methods
@@ -77,13 +75,28 @@ public class GamePanel extends JPanel implements Runnable {
 
 
 
+    public void update() {
+
+        int preWidth = this.mainWindow.getWidth();
+        int preHeight = this.mainWindow.getHeight();
+        int newWidth = (preWidth / this.mainWindow.gameSettings.fullTilsize) * this.mainWindow.gameSettings.fullTilsize;
+        int newHeight = (preHeight / this.mainWindow.gameSettings.fullTilsize) * this.mainWindow.gameSettings.fullTilsize;
+        
+        this.setBackground(Color.MAGENTA);
+        this.setSize(newWidth, newHeight);
+        this.setLocation((this.mainWindow.getWidth() / 2) - (this.getWidth() / 2), (this.mainWindow.getHeight() / 2) - (this.getHeight() / 2));
+        
+        this.mainWindow.setTitle("" + newWidth + ", " + newHeight + " | " + this.mainWindow.getWidth() + ", " + this.mainWindow.getHeight() + " | " + newWidth / this.mainWindow.gameSettings.fullTilsize + ", " + newHeight / this.mainWindow.gameSettings.fullTilsize + " | " + this.getWidth() + ", " + this.getHeight());
+
+    }
+
+
+
     //? Default method overridden
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
-
-        this.renderer.supplyGraphics(g);
-
+        
     }
 
 }
