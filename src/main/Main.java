@@ -1,14 +1,12 @@
 package main;
 
-import java.io.IOException;
-
 import org.awtgl.controller.ControllerManager;
 import org.awtgl.window.GameSettings;
 import org.awtgl.window.Window;
 
 public class Main {
     
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         new ControllerManager();
 

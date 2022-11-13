@@ -15,6 +15,11 @@ public class GamePanel extends JPanel implements Runnable {
     private int fps;
     private Window mainWindow;
 
+    public int gameWidth;
+    public int gameHeight;
+    public int tiledWidth;
+    public int tiledHeight;
+
     public GamePanel(int width, int height, int fps, Window mainWindow) {
 
         this.width = width;
@@ -59,7 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
             if (delta >= 1) {
 
                 // UPDATE
-                update();
+                this.update();
 
                 // DRAW
                 //? Uses built-in method to call the other overridden methods
@@ -77,16 +82,21 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
-        int preWidth = this.mainWindow.getWidth();
-        int preHeight = this.mainWindow.getHeight();
+        int preWidth = this.mainWindow.getContentPane().getWidth();
+        int preHeight = this.mainWindow.getContentPane().getHeight();
         int newWidth = (preWidth / this.mainWindow.gameSettings.fullTilsize) * this.mainWindow.gameSettings.fullTilsize;
         int newHeight = (preHeight / this.mainWindow.gameSettings.fullTilsize) * this.mainWindow.gameSettings.fullTilsize;
         
-        this.setBackground(Color.MAGENTA);
+        this.setBackground(Color.RED);
         this.setSize(newWidth, newHeight);
-        this.setLocation((this.mainWindow.getWidth() / 2) - (this.getWidth() / 2), (this.mainWindow.getHeight() / 2) - (this.getHeight() / 2));
+        this.setLocation((this.mainWindow.getContentPane().getWidth() / 2) - (this.getWidth() / 2), (this.mainWindow.getContentPane().getHeight() / 2) - (this.getHeight() / 2));
         
-        this.mainWindow.setTitle("" + newWidth + ", " + newHeight + " | " + this.mainWindow.getWidth() + ", " + this.mainWindow.getHeight() + " | " + newWidth / this.mainWindow.gameSettings.fullTilsize + ", " + newHeight / this.mainWindow.gameSettings.fullTilsize + " | " + this.getWidth() + ", " + this.getHeight());
+        this.gameWidth = this.getWidth();
+        this.gameHeight = this.getHeight();
+        this.tiledWidth = newWidth / this.mainWindow.gameSettings.fullTilsize;
+        this.tiledHeight = newHeight / this.mainWindow.gameSettings.fullTilsize;
+
+        this.mainWindow.setTitle("" + newWidth + ", " + newHeight + " | " + this.mainWindow.getContentPane().getWidth() + ", " + this.mainWindow.getContentPane().getHeight() + " | " + newWidth / this.mainWindow.gameSettings.fullTilsize + ", " + newHeight / this.mainWindow.gameSettings.fullTilsize + " | " + this.getWidth() + ", " + this.getHeight());
 
     }
 
