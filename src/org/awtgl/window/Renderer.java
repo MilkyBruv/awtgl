@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 
-public class Renderer {
+class Renderer {
     
     protected HashMap<Image, Integer[]> test = new HashMap<>();
     private Graphics2D g2d;
@@ -18,8 +18,9 @@ public class Renderer {
 
 
     public void drawImage(Image image, int x, int y, int width, int height) {
-
-
+        
+        this.g2d.drawImage(image.getBufferedImage(), x, y, width, height, null);
+        this.g2d.dispose();
 
     }
 
