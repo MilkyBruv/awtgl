@@ -3,7 +3,12 @@ package org.awtgl.window;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -21,6 +26,8 @@ public class GamePanel extends JPanel implements Runnable {
     public int tiledWidth;
     public int tiledHeight;
 
+    public Image mainDisplay;
+
     public GamePanel(int width, int height, int fps, Updater gameUpdater, Window mainWindow) {
 
         this.width = width;
@@ -28,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.fps = fps;
         this.mainWindow = mainWindow;
         this.gameUpdater = gameUpdater;
+        this.mainDisplay = new Image(this.width, this.height);
 
         this.setPreferredSize(new Dimension(this.width, this.height));
         this.setBackground(new Color(255, 0, 0));
@@ -90,8 +98,18 @@ public class GamePanel extends JPanel implements Runnable {
             int preHeight = this.mainWindow.getContentPane().getHeight();
             int newWidth = (preWidth / this.mainWindow.gameSettings.fullTilsize) * this.mainWindow.gameSettings.fullTilsize;
             int newHeight = (preHeight / this.mainWindow.gameSettings.fullTilsize) * this.mainWindow.gameSettings.fullTilsize;
+
+            if (newWidth <= 1) {
+
+                newWidth = 10;
+
+            } if (newHeight <= 1) {
+
+                newHeight = 10;
+
+            }
             
-            this.setBackground(Color.RED);
+            this.setBackground(Color.BLUE);
             this.setSize(newWidth, newHeight);
             this.setLocation((this.mainWindow.getContentPane().getWidth() / 2) - (this.getWidth() / 2), (this.mainWindow.getContentPane().getHeight() / 2) - (this.getHeight() / 2));
             
@@ -105,6 +123,8 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         this.gameUpdater.update();
+        
+        this.mainDisplay = new Image(this.getWidth(), this.getHeight());
 
     }
 
@@ -114,6 +134,30 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
+
+        Graphics2D g2d = (Graphics2D) g;
+
+        try {
+
+            BufferedImage testImage = ImageIO.read(new File(System.getProperty("user.dir") + "/src/res/i.png"));
+
+            for (int x = 0; x < this.tiledWidth; x++) {
+                
+                for (int y = 0; y < this.tiledHeight; y++) {
+                    
+                    g2d.drawImage(testImage, x * this.mainWindow.gameSettings.fullTilsize, y * this.mainWindow.gameSettings.fullTilsize, this.mainWindow.gameSettings.fullTilsize, this.mainWindow.gameSettings.fullTilsize, null);
+
+                }
+
+            }
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+        g2d.dispose();
         
     }
 
