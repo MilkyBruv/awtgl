@@ -20,6 +20,7 @@ public class GamePanel extends JPanel implements Runnable {
     private int fps;
     private Window mainWindow;
     private Updater gameUpdater;
+    private Renderer renderer;
 
     public int gameWidth;
     public int gameHeight;
@@ -36,6 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.mainWindow = mainWindow;
         this.gameUpdater = gameUpdater;
         this.mainDisplay = new Image(this.width, this.height);
+        this.renderer = new Renderer(this.mainDisplay.getBufferedImage().getGraphics());
 
         this.setPreferredSize(new Dimension(this.width, this.height));
         this.setBackground(new Color(255, 0, 0));
@@ -125,6 +127,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.gameUpdater.update();
         
         this.mainDisplay = new Image(this.getWidth(), this.getHeight());
+        
+        this.renderer.supplyGraphics(this.mainDisplay.getBufferedImage().getGraphics());
 
     }
 
@@ -137,25 +141,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        try {
-
-            BufferedImage testImage = ImageIO.read(new File(System.getProperty("user.dir") + "/src/res/i.png"));
-
-            for (int x = 0; x < this.tiledWidth; x++) {
-                
-                for (int y = 0; y < this.tiledHeight; y++) {
-                    
-                    g2d.drawImage(testImage, x * this.mainWindow.gameSettings.fullTilsize, y * this.mainWindow.gameSettings.fullTilsize, this.mainWindow.gameSettings.fullTilsize, this.mainWindow.gameSettings.fullTilsize, null);
-
-                }
-
-            }
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-        }
+        g2d.drawImage(this.mainDisplay.getBufferedImage(), 0, 0, this.getWidth(), this.getHeight(), null);
 
         g2d.dispose();
         

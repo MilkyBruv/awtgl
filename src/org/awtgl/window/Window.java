@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 public class Window extends JFrame {
 
-    private GamePanel gamePanel;
+    public GamePanel gamePanel;
     protected GameSettings gameSettings;
     protected Updater gameUpdater;
     

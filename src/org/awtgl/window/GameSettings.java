@@ -22,10 +22,6 @@ public class GameSettings {
 
     public void update() {
 
-        this.baseTileSize = this.baseTileSize;
-        this.scale = this.scale;
-        this.tiledWidth = this.tiledWidth;
-        this.tiledHeight = this.tiledHeight;
         this.fullTilsize = this.scale * this.baseTileSize;
 
     }
