@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 public class Window extends JFrame {
 
-    public GamePanel gamePanel;
+    protected GamePanel gamePanel;
     protected GameSettings gameSettings;
     protected Updater gameUpdater;
     
@@ -18,32 +18,7 @@ public class Window extends JFrame {
         this.getContentPane().setBackground(new Color(0x000000));
         this.gameSettings = gameSettings;
         this.gameUpdater = gameUpdater;
-        
-        if (this.gameSettings.scale != 0) {
-
-            this.gamePanel = new GamePanel(
-            
-                this.gameSettings.tiledWidth * this.gameSettings.fullTilsize, 
-                this.gameSettings.tiledHeight * this.gameSettings.fullTilsize, 
-                fps, 
-                gameUpdater, 
-                this
-    
-            );
-
-        } else if (this.gameSettings.scale == 0) {
-
-            this.gamePanel = new GamePanel(
-            
-                width, 
-                height, 
-                fps, 
-                gameUpdater, 
-                this
-    
-            );
-
-        }
+        this.gamePanel = new GamePanel(width, height, fps, gameUpdater, this);
         
         this.add(gamePanel);
         this.pack();

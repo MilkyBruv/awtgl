@@ -1,7 +1,5 @@
 package org.awtgl.window;
 
-import java.awt.Graphics2D;
-
 public class Updater {
     
     public GameSettings settings;
@@ -22,6 +20,6 @@ public class Updater {
 
 
 
-    public void draw(Graphics2D g2d, Image display) { }
+    public void draw(Image display) { }
 
 }

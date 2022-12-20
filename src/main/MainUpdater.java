@@ -1,7 +1,5 @@
 package main;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.io.IOException;
 
 import org.awtgl.window.GamePanel;
@@ -52,9 +50,9 @@ public class MainUpdater extends Updater {
 
 
     @Override
-    public void draw(Graphics2D g2d, Image display) {
+    public void draw(Image display) {
 
-         this.renderer.drawImage(this.testImage, 20, 20, 0, g2d, display);
+        this.renderer.drawImage(this.testImage, 20, 20, 0, display);
 
     }
 

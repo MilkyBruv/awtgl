@@ -2,28 +2,20 @@ package org.awtgl.window;
 
 public class GameSettings {
     
-    public int baseTileSize;
+    public int tileSize;
     public int scale;
     public int tiledWidth;
     public int tiledHeight;
-    public int fullTilsize;
+    public int width;
+    public int height;
 
-    public GameSettings(int baseTileSize, int scale, int tiledWidth, int tiledHeight) {
+    public GameSettings(int tileSize, int tiledWidth, int tiledHeight) {
 
-        this.baseTileSize = baseTileSize;
-        this.scale = scale;
+        this.tileSize = tileSize;
         this.tiledWidth = tiledWidth;
         this.tiledHeight = tiledHeight;
-        this.fullTilsize = this.scale * this.baseTileSize;
-
-    }
-
-
-
-    protected void update(int newTilesize) {
-
-        this.fullTilsize = newTilesize;
-        this.scale = this.fullTilsize / this.baseTileSize;
+        this.width = this.tileSize * this.tiledWidth;
+        this.height = this.tileSize * this.tiledHeight;
 
     }
 

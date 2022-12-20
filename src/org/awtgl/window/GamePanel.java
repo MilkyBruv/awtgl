@@ -4,11 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -21,6 +17,9 @@ public class GamePanel extends JPanel implements Runnable {
     private Window mainWindow;
     private Updater gameUpdater;
 
+    private int displayWidth;
+    private int displayHeight;
+
     public Image mainDisplay;
 
     public GamePanel(int width, int height, int fps, Updater gameUpdater, Window mainWindow) {
@@ -31,9 +30,11 @@ public class GamePanel extends JPanel implements Runnable {
         this.mainWindow = mainWindow;
         this.gameUpdater = gameUpdater;
         this.mainDisplay = new Image(this.width, this.height);
+        this.displayWidth = 0;
+        this.displayHeight = 0;
 
         this.setPreferredSize(new Dimension(this.width, this.height));
-        this.setBackground(new Color(255, 0, 0));
+        this.setBackground(new Color(0, 0, 255));
         this.setDoubleBuffered(true);
         this.setFocusable(true);
 
@@ -87,63 +88,40 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
-        if (this.mainWindow.gameSettings.scale != 0) {
+        int bWidth = this.mainWindow.gameSettings.width;
+        int bHeight = this.mainWindow.gameSettings.height;
 
-            int preWidth = this.mainWindow.getContentPane().getWidth();
-            int preHeight = this.mainWindow.getContentPane().getHeight();
-            int newWidth = (preWidth / this.mainWindow.gameSettings.tiledWidth) * this.mainWindow.gameSettings.tiledWidth;
-            int newHeight = (preHeight / this.mainWindow.gameSettings.tiledHeight) * this.mainWindow.gameSettings.tiledHeight;
+        int mWidth = this.mainWindow.getContentPane().getWidth();
+        int mHeight = this.mainWindow.getContentPane().getHeight();
+        
+        // scale inner display to max fit window
+        float scale = Math.min(mWidth / bWidth, mHeight / bHeight);
 
-            if (newWidth <= 1) {
-
-                newWidth = 10;
-
-            }
-            
-            if (newHeight <= 1) {
-
-                newHeight = 10;
-
-            }
-            
-            this.setBackground(Color.BLUE);
-            this.setSize(newWidth, newHeight);
-            this.setLocation((this.mainWindow.getContentPane().getWidth() / 2) - (this.getWidth() / 2), (this.mainWindow.getContentPane().getHeight() / 2) - (this.getHeight() / 2));
-
-            this.mainWindow.gameUpdater.settings.update(newWidth / this.mainWindow.gameSettings.tiledWidth);
-
-            this.mainWindow.setTitle(
-                
-                "" + newWidth + ", " + newHeight + " | " + 
-
-                this.mainWindow.getContentPane().getWidth() + ", " + this.mainWindow.getContentPane().getHeight() + " | " + 
-
-                newWidth / this.mainWindow.gameSettings.fullTilsize + ", " + newHeight / this.mainWindow.gameSettings.fullTilsize + " | " + 
-                
-                this.getWidth() + ", " + this.getHeight()
-                                    
-            );
-    
-        }
+        this.displayWidth = Math.round(bWidth * scale);
+        this.displayHeight = Math.round(bHeight * scale);
 
         this.gameUpdater.update();
-        
-        this.mainDisplay = new Image(this.getWidth(), this.getHeight());
 
     }
 
 
 
-    //? Default method overridden
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
 
-        this.gameUpdater.draw((Graphics2D) this.mainDisplay.getBufferedImage().getGraphics(), this.mainDisplay);
+        Graphics2D mdg2d = (Graphics2D) this.mainDisplay.getBufferedImage().getGraphics();
+        mdg2d.setColor(new Color(0, 0, 0));
+        mdg2d.fillRect(0, 0, this.mainDisplay.getBufferedImage().getWidth(), this.mainDisplay.getBufferedImage().getHeight());
 
-        g2d.drawImage(this.mainDisplay.getBufferedImage(), 0, 0, this.getWidth(), this.getHeight(), null);
+        this.gameUpdater.draw(this.mainDisplay);
+
+        int xPos = (this.mainWindow.getContentPane().getWidth() / 2) - (this.displayWidth / 2);
+        int yPos = (this.mainWindow.getContentPane().getHeight() / 2) - (this.displayHeight / 2);
+
+        g2d.drawImage(this.mainDisplay.getBufferedImage(), xPos, yPos, this.displayWidth, this.displayHeight, null);
         g2d.dispose();
         
     }
