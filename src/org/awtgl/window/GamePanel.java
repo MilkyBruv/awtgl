@@ -20,12 +20,6 @@ public class GamePanel extends JPanel implements Runnable {
     private int fps;
     private Window mainWindow;
     private Updater gameUpdater;
-    private Renderer renderer;
-
-    public int gameWidth;
-    public int gameHeight;
-    public int tiledWidth;
-    public int tiledHeight;
 
     public Image mainDisplay;
 
@@ -37,7 +31,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.mainWindow = mainWindow;
         this.gameUpdater = gameUpdater;
         this.mainDisplay = new Image(this.width, this.height);
-        this.renderer = new Renderer(this.mainDisplay.getBufferedImage().getGraphics());
 
         this.setPreferredSize(new Dimension(this.width, this.height));
         this.setBackground(new Color(255, 0, 0));
@@ -98,14 +91,16 @@ public class GamePanel extends JPanel implements Runnable {
 
             int preWidth = this.mainWindow.getContentPane().getWidth();
             int preHeight = this.mainWindow.getContentPane().getHeight();
-            int newWidth = (preWidth / this.mainWindow.gameSettings.fullTilsize) * this.mainWindow.gameSettings.fullTilsize;
-            int newHeight = (preHeight / this.mainWindow.gameSettings.fullTilsize) * this.mainWindow.gameSettings.fullTilsize;
+            int newWidth = (preWidth / this.mainWindow.gameSettings.tiledWidth) * this.mainWindow.gameSettings.tiledWidth;
+            int newHeight = (preHeight / this.mainWindow.gameSettings.tiledHeight) * this.mainWindow.gameSettings.tiledHeight;
 
             if (newWidth <= 1) {
 
                 newWidth = 10;
 
-            } if (newHeight <= 1) {
+            }
+            
+            if (newHeight <= 1) {
 
                 newHeight = 10;
 
@@ -114,21 +109,26 @@ public class GamePanel extends JPanel implements Runnable {
             this.setBackground(Color.BLUE);
             this.setSize(newWidth, newHeight);
             this.setLocation((this.mainWindow.getContentPane().getWidth() / 2) - (this.getWidth() / 2), (this.mainWindow.getContentPane().getHeight() / 2) - (this.getHeight() / 2));
-            
-            this.gameWidth = this.getWidth();
-            this.gameHeight = this.getHeight();
-            this.tiledWidth = newWidth / this.mainWindow.gameSettings.fullTilsize;
-            this.tiledHeight = newHeight / this.mainWindow.gameSettings.fullTilsize;
-    
-            this.mainWindow.setTitle("" + newWidth + ", " + newHeight + " | " + this.mainWindow.getContentPane().getWidth() + ", " + this.mainWindow.getContentPane().getHeight() + " | " + newWidth / this.mainWindow.gameSettings.fullTilsize + ", " + newHeight / this.mainWindow.gameSettings.fullTilsize + " | " + this.getWidth() + ", " + this.getHeight());
+
+            this.mainWindow.gameUpdater.settings.update(newWidth / this.mainWindow.gameSettings.tiledWidth);
+
+            this.mainWindow.setTitle(
+                
+                "" + newWidth + ", " + newHeight + " | " + 
+
+                this.mainWindow.getContentPane().getWidth() + ", " + this.mainWindow.getContentPane().getHeight() + " | " + 
+
+                newWidth / this.mainWindow.gameSettings.fullTilsize + ", " + newHeight / this.mainWindow.gameSettings.fullTilsize + " | " + 
+                
+                this.getWidth() + ", " + this.getHeight()
+                                    
+            );
     
         }
 
         this.gameUpdater.update();
         
         this.mainDisplay = new Image(this.getWidth(), this.getHeight());
-        
-        this.renderer.supplyGraphics(this.mainDisplay.getBufferedImage().getGraphics());
 
     }
 
@@ -141,8 +141,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.drawImage(this.mainDisplay.getBufferedImage(), 0, 0, this.getWidth(), this.getHeight(), null);
+        this.gameUpdater.draw((Graphics2D) this.mainDisplay.getBufferedImage().getGraphics(), this.mainDisplay);
 
+        g2d.drawImage(this.mainDisplay.getBufferedImage(), 0, 0, this.getWidth(), this.getHeight(), null);
         g2d.dispose();
         
     }

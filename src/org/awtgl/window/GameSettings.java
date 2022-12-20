@@ -20,9 +20,10 @@ public class GameSettings {
 
 
 
-    public void update() {
+    protected void update(int newTilesize) {
 
-        this.fullTilsize = this.scale * this.baseTileSize;
+        this.fullTilsize = newTilesize;
+        this.scale = this.fullTilsize / this.baseTileSize;
 
     }
 

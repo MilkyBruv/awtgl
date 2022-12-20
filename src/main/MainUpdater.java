@@ -1,7 +1,10 @@
 package main;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.IOException;
 
+import org.awtgl.window.GamePanel;
 import org.awtgl.window.GameSettings;
 import org.awtgl.window.Image;
 import org.awtgl.window.KeyHandler;
@@ -9,47 +12,49 @@ import org.awtgl.window.Keys;
 import org.awtgl.window.Renderer;
 import org.awtgl.window.Updater;
 
-public class MainUpdater implements Updater {
+public class MainUpdater extends Updater {
 
-    GameSettings settings;
-    public Renderer renderer;
+    public GamePanel gamePanel;
+    private Image testImage;
 
-    public MainUpdater(GameSettings settings) {
+    public MainUpdater(GameSettings settings, Renderer renderer) {
 
-        this.settings = settings;
+        super(settings, renderer);
 
-    }
-    
-    @Override
-    public void update() {
-
-        if (KeyHandler.isKeyPressed(Keys.RIGHT)) {
-
-            this.settings.scale += 1;
-
-        }
-
-        if (KeyHandler.isKeyPressed(Keys.LEFT)) {
-
-            this.settings.scale -= 1;
-
-        }
-
-        this.settings.update();
         try {
-            this.draw();
+            this.testImage = new Image(System.getProperty("user.dir") + "\\src\\res\\i.png");
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
     }
+    
+
+
+    @Override
+    public void update() {
+
+        if (KeyHandler.isKeyPressed(Keys.RIGHT)) {
+
+            //
+
+        }
+
+        if (KeyHandler.isKeyPressed(Keys.LEFT)) {
+
+            //
+
+        }
+
+    }
 
 
 
-    public void draw() throws IOException {
+    @Override
+    public void draw(Graphics2D g2d, Image display) {
 
-        renderer.drawImage(new Image(System.getProperty("user.dir") + "/res/i.png"), 0, 0, this.settings.baseTileSize, this.settings.baseTileSize);
+         this.renderer.drawImage(this.testImage, 20, 20, 0, g2d, display);
 
     }
 
