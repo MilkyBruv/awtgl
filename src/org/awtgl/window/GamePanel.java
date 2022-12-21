@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.fps = fps;
         this.mainWindow = mainWindow;
         this.gameUpdater = gameUpdater;
-        this.mainDisplay = new Image(this.width, this.height);
+        this.mainDisplay = new Image(this.mainWindow.gameSettings.width, this.mainWindow.gameSettings.height);
         this.displayWidth = 0;
         this.displayHeight = 0;
 
