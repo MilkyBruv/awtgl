@@ -10,7 +10,6 @@ public class Updater {
 
         this.settings = settings;
         this.renderer = renderer;
-        this.renderer.settings = settings;
 
     }
 

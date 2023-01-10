@@ -17,7 +17,7 @@ public class KeyHandler {
 
                 if (event.getID() == KeyEvent.KEY_PRESSED) { 
                     
-                    pressedKeys.put(event.getKeyCode(), true); 
+                    pressedKeys.put(event.getKeyCode(), true);
                 
                 }
 

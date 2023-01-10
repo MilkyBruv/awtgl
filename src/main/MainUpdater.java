@@ -14,16 +14,22 @@ public class MainUpdater extends Updater {
 
     public GamePanel gamePanel;
     private Image testImage;
+    private float rot = 0;
+    private int x = 0;
+    private int y = 0;
 
     public MainUpdater(GameSettings settings, Renderer renderer) {
 
         super(settings, renderer);
 
         try {
+
             this.testImage = new Image(System.getProperty("user.dir") + "\\src\\res\\i.png");
+
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            
             e.printStackTrace();
+
         }
 
     }
@@ -33,15 +39,39 @@ public class MainUpdater extends Updater {
     @Override
     public void update() {
 
+        if (KeyHandler.isKeyPressed(Keys.R)) {
+
+            this.rot += 0.1;
+
+        }
+
+        if (KeyHandler.isKeyPressed(Keys.E)) {
+
+            this.rot -= 0.1;
+
+        }
+
         if (KeyHandler.isKeyPressed(Keys.RIGHT)) {
 
-            //
+            this.x += 1;
 
         }
 
         if (KeyHandler.isKeyPressed(Keys.LEFT)) {
 
-            //
+            this.x -= 1;
+
+        }
+
+        if (KeyHandler.isKeyPressed(Keys.UP)) {
+
+            this.y -= 1;
+
+        }
+
+        if (KeyHandler.isKeyPressed(Keys.DOWN)) {
+
+            this.y += 1;
 
         }
 
@@ -52,7 +82,8 @@ public class MainUpdater extends Updater {
     @Override
     public void draw(Image display) {
 
-        this.renderer.drawImage(this.testImage, 20, 20, 0, display);
+        this.renderer.drawImage(this.testImage, this.x, this.y, 0, display);
+        this.renderer.drawImage(this.testImage, 1, 8, (int) -this.rot, display);
 
     }
 

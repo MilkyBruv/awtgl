@@ -10,6 +10,14 @@ public class Image {
 
     private BufferedImage bufferedImage;
 
+    protected Image(BufferedImage bufferedImage) {
+
+        this.bufferedImage = bufferedImage;
+
+    }
+
+
+
     public Image(int width, int height) {
 
         this.bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);

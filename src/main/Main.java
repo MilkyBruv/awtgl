@@ -11,7 +11,7 @@ public class Main {
         GameSettings settings = new GameSettings(8, 12, 8);
         Renderer renderer = new Renderer();
         MainUpdater updater = new MainUpdater(settings, renderer);
-        Window window = new Window(1280, 720, "test", true, 60, settings, updater);
+        Window window = new Window(1280, 720, "sus", true, 60, settings, updater, Window.SCALE_INNER_DISPLAY);
 
         window.start();
 

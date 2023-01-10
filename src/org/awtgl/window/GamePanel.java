@@ -19,6 +19,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     private int displayWidth;
     private int displayHeight;
+    private int displayX;
+    private int displayY;
+
+    private int prevWidth = 0;
+    private int prevHeight = 0;
 
     public Image mainDisplay;
 
@@ -32,6 +37,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.mainDisplay = new Image(this.mainWindow.gameSettings.width, this.mainWindow.gameSettings.height);
         this.displayWidth = 0;
         this.displayHeight = 0;
+        this.displayX = 0;
+        this.displayY = 0;
 
         this.setPreferredSize(new Dimension(this.width, this.height));
         this.setBackground(new Color(0, 0, 255));
@@ -88,17 +95,45 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
 
-        int bWidth = this.mainWindow.gameSettings.width;
-        int bHeight = this.mainWindow.gameSettings.height;
+        if (this.mainWindow.mode == Window.SCALE_INNER_DISPLAY)
+        {
 
-        int mWidth = this.mainWindow.getContentPane().getWidth();
-        int mHeight = this.mainWindow.getContentPane().getHeight();
-        
-        // scale inner display to max fit window
-        float scale = Math.min(mWidth / bWidth, mHeight / bHeight);
+            if (this.mainWindow.getContentPane().getWidth() != this.prevWidth && this.mainWindow.getContentPane().getHeight() != this.prevHeight) {
 
-        this.displayWidth = Math.round(bWidth * scale);
-        this.displayHeight = Math.round(bHeight * scale);
+                int bWidth = this.mainWindow.gameSettings.width;
+                int bHeight = this.mainWindow.gameSettings.height;
+
+                int mWidth = this.mainWindow.getWidth();
+                int mHeight = this.mainWindow.getHeight();
+                
+                // scale inner display to max fit window
+                float scale = Math.min(mWidth / bWidth, mHeight / bHeight);
+
+                this.displayWidth = Math.round(bWidth * scale);
+                this.displayHeight = Math.round(bHeight * scale);
+
+                this.displayX = (this.mainWindow.getContentPane().getWidth() / 2) - (this.displayWidth / 2);
+                this.displayY = (this.mainWindow.getContentPane().getHeight() / 2) - (this.displayHeight / 2);
+
+                this.prevWidth = mWidth;
+                this.prevHeight = mHeight;
+
+                this.mainWindow.setTitle("b: " + bWidth + ", " + bHeight + "  |  " + "m: " + mWidth + ", " + mHeight + "  |  " + "s: " + scale);
+
+            }
+
+        }
+
+        if (this.mainWindow.mode == Window.FIT_INNER_DISPLAY)
+        {
+
+            this.displayWidth = this.getWidth();
+            this.displayHeight = this.getHeight();
+
+            this.displayX = 0;
+            this.displayY = 0;
+
+        }
 
         this.gameUpdater.update();
 
@@ -118,10 +153,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         this.gameUpdater.draw(this.mainDisplay);
 
-        int xPos = (this.mainWindow.getContentPane().getWidth() / 2) - (this.displayWidth / 2);
-        int yPos = (this.mainWindow.getContentPane().getHeight() / 2) - (this.displayHeight / 2);
-
-        g2d.drawImage(this.mainDisplay.getBufferedImage(), xPos, yPos, this.displayWidth, this.displayHeight, null);
+        g2d.drawImage(this.mainDisplay.getBufferedImage(), this.displayX, this.displayY, this.displayWidth, this.displayHeight, null);
         g2d.dispose();
         
     }

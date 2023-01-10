@@ -6,7 +6,6 @@ import java.awt.geom.AffineTransform;
 public class Renderer {
     
     private AffineTransform backup = new AffineTransform();
-    public GameSettings settings;
 
     public void drawImage(Image image, int x, int y, int rot, Image display) {
 
@@ -15,7 +14,7 @@ public class Renderer {
         AffineTransform a = AffineTransform.getRotateInstance(rot, x + (image.getBufferedImage().getWidth() / 2), y + (image.getBufferedImage().getHeight() / 2));
 
         g2d.setTransform(a);
-        g2d.drawImage(image.getBufferedImage(), x, y, image.getBufferedImage().getWidth(), image.getBufferedImage().getHeight() , null);
+        g2d.drawImage(image.getBufferedImage(), x, y, image.getBufferedImage().getWidth(), image.getBufferedImage().getHeight(), null);
         g2d.setTransform(backup);
         g2d.dispose();
 
